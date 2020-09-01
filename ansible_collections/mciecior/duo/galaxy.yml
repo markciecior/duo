@@ -1,0 +1,13 @@
+namespace: "markciecior"
+name: "duo"
+version: "1.0.4"
+readme: "README.md"
+authors:
+    - "Mark Ciecior <mciecior@carrieraccessit.com>"
+license:
+    - "GPL-3.0-or-later"
+tags:
+    - duo
+    - duosecurity
+    - api
+repository: "https://www.github.com/markciecior/duo"
