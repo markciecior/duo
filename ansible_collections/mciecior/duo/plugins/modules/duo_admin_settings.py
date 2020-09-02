@@ -18,58 +18,49 @@ short_description: Create a Duo account within an MSP portal.
 version_added: "2.9"
 
 description:
-    - "This is used to add/change the settings of Duo accounts"
+    - This is used to add/change the settings of Duo accounts
 
 options:
     ikey:
         description:
-            - Integration Key for the Duo Admin/Accounts API application
+            - Integration Key for the Duo Admin API application
         type: str
         required: true
     skey:
         description:
-            - Secret Key for the Duo Admin/Accounts API application
+            - Secret Key for the Duo Admin API application
         type: str
         required: true
     host:
         description:
-            - API Host for the Duo Admin/Accounts API application
-        type: str
-        required: true
-    name:
-        description:
-            - Name of the new child account to be modified.  This is only used by MSP accounts to modify child accounts.
-        type: str
-        required: false
-    state:
-        description:
-            - Operation to perform.  "query" will retrieve settings.  "present" will update settings.  settings variable is required if state=present
+            - API Host for the Duo Admin API application
         type: str
         required: true
     lockout_threshold:
         description:
-            - The number of consecutive failed authentication attempts before the user’s status is set to “Locked Out” and the user is denied access.
-        type: bool
+            - The number of consecutive failed authentication attempts before the user's status is set to "Locked Out" and the user is denied access.
+        type: int
         required: false
     lockout_expire_duration:
         description:
-            - If non-zero, the time in minutes until a locked-out user’s status reverts to “Active”. If 0, a user remains locked out until their status is manually changed (By an admin or API call). Minimum: 5 minutes. Maximum: 30000 minutes
-        type: bool
+            - If non-zero, the time in minutes until a locked-out user's status reverts to "Active"
+            - If 0, a user remains locked out until their status is manually changed (By an admin or API call). Minimum=5 minutes. Maximum=30000 minutes
+        type: int
         required: false
     inactive_user_expiration:
         description:
-            - Users will be automatically deleted if they are inactive (no successful logins) for a this amount of days. Minimum: 30 days. Maximum: 365 days.
-        type: bool
+            - Users will be automatically deleted if they are inactive (no successful logins) for a this amount of days. Minimum=30 days. Maximum=365 days.
+        type: int
         required: false
     sms_batch:
         description:
             - How many passcodes to send at one time, up to 10.
-        type: bool
+        type: int
         required: false
     sms_expiration:
         description:
             - The time in minutes to expire and invalidate SMS passcodes, or empty if they should not expire.
-        type: bool
+        type: int
         required: false
     sms_refresh:
         description:
@@ -79,101 +70,129 @@ options:
     sms_message:
         description:
             - Description sent with every batch of SMS passcodes.
-        type: bool
+        type: str
         required: false
     fraud_email:
         description:
-            - The email address to be notified when a user reports a fraudulent authentication attempt or is locked out due to failed authentication attempts, or empty for all administrators will be notified. If fraud_email is set to a specific email address and fraud_email_enabled is set to false, the specific email address value is cleared.
-        type: bool
+            - The email address to be notified when a user reports a fraudulent authentication attempt or is locked out due to failed authentication attempts,
+            - or empty for all administrators will be notified.
+            - If fraud_email is set to a specific email address and fraud_email_enabled is set to false, the specific email address value is cleared.
+        type: str
         required: false
     fraud_email_enabled:
         description:
-            - Set to true to enable fraudulent authentication notification emails. False disables the fraud email functionality. If fraud_email is set to a specific email address and fraud_email_enabled is set to false, the specific email address value is cleared.
+            - Set to true to enable fraudulent authentication notification emails. False disables the fraud email functionality
+            - If fraud_email is set to a specific email address and fraud_email_enabled is set to false, the specific email address value is cleared.
         type: bool
         required: false
     keypress_confirm:
         description:
-            - The key for users to press to authenticate, or empty if any key should be pressed to authenticate. If this is empty, keypress_fraud must be as well.
-        type: bool
+            - The key for users to press to authenticate, or empty if any key should be pressed to authenticate.
+            - If this is empty, keypress_fraud must be as well.
+        type: str
         required: false
     keypress_fraud:
         description:
             - The key for users to report fraud, or empty if any key should be pressed to authenticate. If this is empty, keypress_confirm must be as well.
-        type: bool
+        type: str
         required: false
     timezone:
         description:
-            - This is the timezone used when displaying timestamps in the administrative interface. Timezones must be entries in the IANA Time Zone Database, for example, “US/Eastern”, “Australia/Darwin”, “GMT”.
-        type: bool
+            - This is the timezone used when displaying timestamps in the administrative interface.
+            - Timezones must be entries in the IANA Time Zone Database, for example, "US/Eastern", "Australia/Darwin", "GMT".
+        type: str
         required: false
     telephony_warning_min:
         description:
             - Configure a alert to be sent when the account has fewer than this many telephony credits remaining.
-        type: bool
+        type: int
         required: false
     caller_id:
         description:
             - Automated calls will appear to come from this number. This does not apply to text messages.
-        type: bool
+        type: str
         required: false
     push_enabled:
         description:
-            - If true, users will be able to use Duo Push to authenticate. If false, users will not be able to use Duo Push to authenticate. Note that if false, this will override push_enabled for any groups.
+            - If true, users will be able to use Duo Push to authenticate. If false, users will not be able to use Duo Push to authenticate
+            - Note that if false, this will override push_enabled for any groups.
         type: bool
         required: false
     sms_enabled:
         description:
-            - If true, users will be able to use SMS passcodes to authenticate. If false, users will not be able to use SMS passcodes to authenticate. Note that if false, this will override sms_enabled for any groups.
+            - If true, users will be able to use SMS passcodes to authenticate. If false, users will not be able to use SMS passcodes to authenticate
+            - Note that if false, this will override sms_enabled for any groups.
         type: bool
         required: false
     voice_enabled:
         description:
-            - If true, users will be able to authenticate using voice callback. If false, users will not be able to authenticate using voice callback. Note that if false, this will override voice_enabled for any groups.
+            - If true, users will be able to authenticate using voice callback. If false, users will not be able to authenticate using voice callback
+            - Note that if false, this will override voice_enabled for any groups.
         type: bool
         required: false
     mobile_otp_enabled:
         description:
-            - If true, users will be able to use authenticate with a passcode generated by Duo Mobile. If false, users will not be able to authenticate with a passcode generated by Duo Mobile. Note that if false, this will override Duo Mobile passcodes for any groups.
+            - If true, users will be able to use authenticate with a passcode generated by Duo Mobile.
+            - If false, users will not be able to authenticate with a passcode generated by Duo Mobile
+            - Note that if false, this will override Duo Mobile passcodes for any groups.
         type: bool
         required: false
     u2f_enabled:
         description:
-            - If true, users will be able to use authenticate with a U2F device. If false, users will not be able to authenticate with a U2F device. Default: false.
+            - If true, users will be able to use authenticate with a U2F device.
+            - If false, users will not be able to authenticate with a U2F device.
         type: bool
         required: false
+        default: false
     user_telephony_cost_max:
         description:
-            - The maximum number of telephony credits a user may consume in a single authentication event. This excludes Duo administrators authenticating to the Duo administration panel. Default: 20.
-        type: bool
+            - The maximum number of telephony credits a user may consume in a single authentication event
+            - This excludes Duo administrators authenticating to the Duo administration panel.
+        type: int
         required: false
+        default: 20
     minimum_password_length:
         description:
-            - The minimum number of characters that an administrator’s Duo Admin Panel password must contain. This is only enforced on password creation and reset; existing passwords will not be invalidated. Default: 12.
-        type: bool
+            - The minimum number of characters that an administrator's Duo Admin Panel password must contain.
+            - This is only enforced on password creation and reset; existing passwords will not be invalidated.
+        type: int
         required: false
+        default: 12
     password_requires_upper_alpha:
         description:
-            - If true, administrator passwords will be required to contain an upper case alphabetic character. If false, administrator passwords will not be required to contain an upper case alphabetic character. This is only enforced on password creation and reset; existing passwords will not be invalidated. Default: false.
+            - If true, administrator passwords will be required to contain an upper case alphabetic character.
+            - If false, administrator passwords will not be required to contain an upper case alphabetic character.
+            - This is only enforced on password creation and reset; existing passwords will not be invalidated.
         type: bool
         required: false
+        default: false
     password_requires_lower_alpha:
         description:
-            - If true, administrator passwords will be required to contain a lower case alphabetic character. If false, administrator passwords will not be required to contain a lower case alphabetic character. This is only enforced on password creation and reset; existing passwords will not be invalidated. Default: false.
+            - If true, administrator passwords will be required to contain a lower case alphabetic character.
+            - If false, administrator passwords will not be required to contain a lower case alphabetic character.
+            - This is only enforced on password creation and reset; existing passwords will not be invalidated.
         type: bool
         required: false
+        default: false
     password_requires_numeric:
         description:
-            - If true, administrator passwords will be required to contain a numeric character. If false, administrator passwords will not be required to contain a numeric character. This is only enforced on password creation and reset; existing passwords will not be invalidated. Default: false.
+            - If true, administrator passwords will be required to contain a numeric character.
+            - If false, administrator passwords will not be required to contain a numeric character.
+            - This is only enforced on password creation and reset; existing passwords will not be invalidated.
         type: bool
         required: false
+        default: false
     password_requires_special:
         description:
-            - If true, administrator passwords will be required to contain a special (non-alphanumeric) character. If false, administrator passwords will not be required to contain a special (non-alphanumeric) character. This is only enforced on password creation and reset; existing passwords will not be invalidated. Default: false.
+            - If true, administrator passwords will be required to contain a special (non-alphanumeric) character.
+            - If false, administrator passwords will not be required to contain a special (non-alphanumeric) character.
+            - This is only enforced on password creation and reset; existing passwords will not be invalidated.
         type: bool
         required: false
+        default: false
 
 author:
-    - Mark Ciecior (@markciecior)
+    - Mark Ciecior (mciecior@carrieraccessit.com)
 '''
 
 EXAMPLES = '''
@@ -336,7 +355,7 @@ def run_module():
         skey=skey,
         host=host,
         )
-    
+
     if name:
         accounts_api = duo_client.Accounts(
           ikey=ikey,
@@ -350,12 +369,12 @@ def run_module():
                 break
         if not admin_api.account_id:
             module.fail_json(msg='Could not find child account {}'.format(name), **result)
-    
+
     currentSettings = {}
     try:
         currentSettings = admin_api.get_settings()
     except Exception as e:
-        module.fail_json(msg='Could not retrieve current account settings', **result)
+        module.fail_json(msg='Could not retrieve current account settings: {}'.format(str(e)), **result)
     if state == 'query':
         result['changed'] = False
         try:
@@ -364,14 +383,14 @@ def run_module():
             module.exit_json(**result)
         except Exception as e:
             module.fail_json(msg=str(e), **result)
-    
+
     if state == 'present':
         result['changed'] = False
         for k, v in newSettings.items():
             if newSettings[k] and (newSettings[k] != currentSettings[k]):
                 result['changed'] = True
                 break
-        if result['changed'] == False:
+        if result['changed'] is False:
             module.exit_json(**result)
         else:
             for k, v in newSettings.items():
