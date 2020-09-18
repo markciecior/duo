@@ -77,6 +77,10 @@ account_id:
     description: The Duo-assigned account_id variable
     type: str
     returned: always
+
+api_hostname:
+    description: The Duo-assigned API hostname
+    type: str
 '''
 
 import duo_client
@@ -134,7 +138,9 @@ def run_module():
                 module.exit_json(**result)
         if not module.check_mode:
             try:
-                accounts_api.create_account(name)
+                resp = accounts_api.create_account(name)
+                result['account_id'] = resp['account_id']
+                result['api_hostname'] = resp['api_hostname']
             except Exception as e:
                 module.fail_json(msg=str(e), **result)
         result['changed'] = True
