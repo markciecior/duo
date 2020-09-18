@@ -135,6 +135,7 @@ def run_module():
             if account['name'] == name:
                 result['changed'] = False
                 result['account_id'] = account['account_id']
+                result['api_hostname'] = account['api_hostname']
                 module.exit_json(**result)
         if not module.check_mode:
             try:
