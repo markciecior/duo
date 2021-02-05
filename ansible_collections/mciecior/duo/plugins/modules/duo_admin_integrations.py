@@ -216,7 +216,7 @@ def run_module():
             for i in integrationList:
                 if i['name'] == app_name:
                     result['changed'] = False
-                    module.fail_json(msg='Integration with name [{}] already exists.'.format(app_name), **result)
+                    module.exit_json(**result)
             result['changed'] = True
             if module.check_mode:
                 module.exit_json(**result)
