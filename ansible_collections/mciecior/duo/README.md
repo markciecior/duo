@@ -6,7 +6,7 @@ Duo Security Accounts API
 Requirements
 ------------
 
-duo-client python library
+duo_client python library
 
 Role Variables
 --------------
