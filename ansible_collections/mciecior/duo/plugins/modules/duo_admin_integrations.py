@@ -216,6 +216,8 @@ def run_module():
             for i in integrationList:
                 if i['name'] == app_name:
                     result['changed'] = False
+                    result['ikey'] = i['ikey']
+                    result['skey'] = i['skey']
                     module.exit_json(**result)
             result['changed'] = True
             if module.check_mode:
